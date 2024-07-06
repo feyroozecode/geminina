@@ -67,8 +67,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   ),
 
-                  Padding(padding: EdgeInsets.all(10), 
-                  child: /// Image Generation button
+                  Padding(padding: const EdgeInsets.all(10), 
+                  child: 
+                  /// Image Generation button
                   ElevatedButton(
                     onPressed: () {
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => ImageGenerationPage()));
@@ -78,12 +79,14 @@ class _HomePageState extends State<HomePage> {
 
 
                   /// Code Generation button
-                  ElevatedButton(
+                 Padding(padding: const EdgeInsets.all(10), 
+                 child:  ElevatedButton(
                     onPressed: () {
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => CodeGenerationPage()));
                     },
                     child: Text("Code Generation"),
                   ),
+                  )
                 ],
               ),
             )

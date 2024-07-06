@@ -1,28 +1,58 @@
+///Imports:
+// dotenv: Pour gérer les variables d'environnement.
+// flutter/material.dart: Pour utiliser les widgets Material Design.
+// geminina/const/app_constante.dart: Pour les constantes de l'application.
+// geminina/service/chat_service.dart: Pour les services de chat.
+// geminina/widgets/messae_widget.dart: Pour les widgets de message.
+// google_generative_ai/google_generative_ai.dart: Pour le modèle génératif de Google.
+// Classes:
 import 'package:dotenv/dotenv.dart';
 import 'package:flutter/material.dart';
-import 'package:geminina/const/app_constante.dart';
 import 'package:geminina/service/chat_service.dart';
 import 'package:geminina/widgets/messae_widget.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
+
+
+// _scrollDown(): Scroll automatiquement vers le bas pour afficher le dernier message.
+// build(): Construit l'interface utilisateur.
+// _sendChatMessage(): Envoie un message au modèle génératif et gère la réponse.
+// _showError(): Affiche un message d'erreur dans une boîte de dialogue.
+///
+
+
+// ChatScreen est un StatefulWidget qui gère l'interface utilisateur du chatbot.
+// _ChatScreenState contient l'état et la logique de ChatScreen.
+// Initialisation:
 class ChatScreen extends StatefulWidget {
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+
+  // _formKey, _promptController, _messages: Contrôleurs et listes pour gérer le formulaire et les messages.
   final _formKey = GlobalKey<FormState>();
+  /// Controller pour le prompt de l'utilisateur
   final _promptController = TextEditingController();
+
+  /// Message géneré
   final _messages = <MessageWidget>[];
     late final GenerativeModel _model;
   final ScrollController _scrollController = ScrollController();
 
+// env: Charge les variables d'environnement.
   var env = DotEnv(includePlatformEnvironment: true)..load();
   
+  // _generatedContent: Liste des contenus générés (texte et images).
   final List<({Image? image, String? text, bool fromUser})> _generatedContent =
       <({Image? image, String? text, bool fromUser})>[];
 
+  /// _loading: Indique si une requête est en cours.
+  /// variable pour suivre l'etat de la progression de la generation 
   bool _loading = false;
+
+  /// Session du Chat
   late final ChatSession _chat;
   final TextEditingController _textController = TextEditingController();
   final FocusNode _textFieldFocus = FocusNode();
@@ -34,6 +64,8 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     
     _model = _chatService.initModel();
+    
+    // _chat: Session de chat initialisée dans initState.
     _chat = _model.startChat();
   }
 
@@ -48,12 +80,11 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
-
   
   @override
   Widget build(BuildContext context) {
 
-    final API_KEY =  env['GEMINI_API_KEY']!;
+    final API_KEY = env['GEMINI_API_KEY']!;
 
       final textFieldDecoration = InputDecoration(
       contentPadding: const EdgeInsets.all(15),
@@ -129,6 +160,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
                 const SizedBox.square(dimension: 15),
+                /// generate image
                 // IconButton(
                 //   onPressed: !_loading
                 //       ? () async {
@@ -182,7 +214,7 @@ class _ChatScreenState extends State<ChatScreen> {
       _generatedContent.add((image: null, text: text, fromUser: false));
 
       if (text == null) {
-        _showError('No response from API.');
+        _showError('Pas de réponse de l\Api verifier votre internet iu relancer .');
         return;
       } else {
         setState(() {

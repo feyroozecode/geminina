@@ -11,10 +11,10 @@ class ChatService {
 
     // env
     var env = DotEnv(includePlatformEnvironment: true)..load();
-
+    
     return GenerativeModel(
       model: AppConstante.ada_model,
-      apiKey: env['GEMINI_API_KEY']!,
+      apiKey: env['GEMINI_API_KEY']!, 
       safetySettings: [
         SafetySetting(HarmCategory.harassment, HarmBlockThreshold.high), 
         SafetySetting(HarmCategory.sexuallyExplicit, HarmBlockThreshold.high)
