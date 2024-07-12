@@ -1,6 +1,6 @@
 # geminina
 
-A new Flutter project.
+  A new Flutter Ap Implmenting Gemni API for text generation and image detection
 
 ## Getting Started
 
